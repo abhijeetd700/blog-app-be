@@ -8,10 +8,15 @@ import dotenv from 'dotenv';
 import path from 'path';
 import cookieParser from 'cookie-parser'
 import multer from "multer";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const app = express();
 
 const envPath = path.resolve(process.cwd(), '.env');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 dotenv.config({ path: envPath });
 
 app.use(cors({origin: '*'}));
@@ -22,9 +27,13 @@ app.use(bodyParser.urlencoded({ extended: true }));  // Parses URL-encoded data
 
 app.use(express.json())
 
+// Serve static files from the 'public/upload' directory
+app.use('/api/static', express.static(path.join(__dirname, 'public/upload')));
+
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "../client/public/upload");
+      cb(null, "./public/upload");
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + file.originalname);
