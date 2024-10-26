@@ -14,7 +14,7 @@ const app = express();
 const envPath = path.resolve(process.cwd(), '.env');
 dotenv.config({ path: envPath });
 
-app.use(cors());
+app.use(cors({origin: '*'}));
 app.use(cookieParser());
 // Use body-parser middleware
 app.use(bodyParser.json());  // Parses incoming JSON requests
