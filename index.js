@@ -33,6 +33,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
+app.get('/api', (req, res) => {
+    res.send('Hello from Express on Render!');
+});
+
 app.post("/api/upload",upload.single("file"),(req,res)=>{
 
     try {
